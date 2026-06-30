@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Supriya S — Data Engineer</title>
+<meta name="description" content="Data Engineer building distributed batch and real-time pipelines on AWS, Spark, and Kafka." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #FBFCFD;
+    --surface: #F2F5FA;
+    --ink: #15233B;
+    --muted: #5B6B82;
+    --line: #E2E8F1;
+    --accent: #2563C9;     /* primary blue, matches the resume/cover-letter set */
+    --signal: #E0653A;     /* warm accent, used once, for the headline metric */
+    --display: "Space Grotesk", system-ui, sans-serif;
+    --body: "Inter", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --maxw: 1080px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+
+  /* ---------- nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: blur(8px);
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .nav .name { font-family: var(--mono); font-weight: 600; font-size: 0.9rem; }
+  .nav .name b { color: var(--accent); }
+  .nav-links { display: flex; gap: 26px; font-size: 0.86rem; }
+  .nav-links a { text-decoration: none; color: var(--muted); transition: color .15s; }
+  .nav-links a:hover { color: var(--ink); }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 88px 0 48px; }
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(2.4rem, 6vw, 4.1rem);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+  }
+  .hero .lede {
+    font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+    color: var(--muted);
+    max-width: 640px;
+    margin: 0 0 36px;
+  }
+  .hero .lede b { color: var(--ink); font-weight: 600; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 0.84rem; font-weight: 500;
+    text-decoration: none; padding: 11px 18px; border-radius: 8px;
+    border: 1px solid var(--line); transition: transform .12s, border-color .15s, background .15s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn-primary:hover { background: #1e54ab; }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ---------- signature: pipeline flow ---------- */
+  .pipeline {
+    margin: 56px 0 8px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background:
+      linear-gradient(var(--bg), var(--bg)) padding-box,
+      var(--surface);
+    padding: 26px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .pipeline .pl-label {
+    font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 18px;
+  }
+  .pl-track { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+  .pl-node {
+    font-family: var(--mono); font-size: 0.8rem; font-weight: 500;
+    background: var(--bg); border: 1px solid var(--line); color: var(--ink);
+    padding: 9px 13px; border-radius: 8px; white-space: nowrap;
+  }
+  .pl-arrow {
+    flex: 1 1 24px; min-width: 24px; height: 2px; position: relative;
+    background: var(--line); margin: 0 6px;
+  }
+  .pl-arrow::after {
+    content: ""; position: absolute; right: -1px; top: 50%;
+    width: 6px; height: 6px; border-top: 2px solid var(--line);
+    border-right: 2px solid var(--line); transform: translateY(-50%) rotate(45deg);
+  }
+  /* travelling pulse */
+  .pl-pulse {
+    position: absolute; top: 0; left: 0; height: 100%; width: 38%;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 16%, transparent), transparent);
+    animation: flow 4.2s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes flow { from { transform: translateX(-60%); } to { transform: translateX(360%); } }
+  @media (max-width: 640px) {
+    .pl-track { flex-direction: column; align-items: stretch; gap: 8px; }
+    .pl-node { text-align: center; }
+    .pl-arrow { display: none; }
+  }
+
+  /* ---------- metrics ---------- */
+  .metrics { padding: 18px 0 8px; }
+  .metric-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden;
+  }
+  .metric { background: var(--bg); padding: 26px 20px; }
+  .metric .num { font-family: var(--mono); font-weight: 600; font-size: 1.9rem; letter-spacing: -0.01em; }
+  .metric:first-child .num { color: var(--signal); }
+  .metric .cap { font-size: 0.82rem; color: var(--muted); margin-top: 6px; }
+  @media (max-width: 720px) { .metric-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  /* ---------- sections ---------- */
+  section { padding: 64px 0; }
+  .sec-head { margin-bottom: 32px; }
+  .sec-head h2 {
+    font-family: var(--display); font-weight: 600;
+    font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: -0.01em; margin: 0;
+  }
+  .about p { font-size: 1.12rem; max-width: 680px; color: var(--ink); }
+  .about p + p { margin-top: 16px; color: var(--muted); font-size: 1rem; }
+
+  /* work cards */
+  .work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 720px) { .work-grid { grid-template-columns: 1fr; } }
+  .card {
+    border: 1px solid var(--line); border-radius: 14px; padding: 26px;
+    text-decoration: none; display: flex; flex-direction: column;
+    transition: border-color .15s, transform .12s, box-shadow .15s; background: var(--bg);
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(21,35,59,.06); }
+  .card .kind { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+  .card h3 { font-family: var(--display); font-weight: 600; font-size: 1.2rem; margin: 12px 0 8px; }
+  .card p { color: var(--muted); font-size: 0.95rem; margin: 0 0 18px; }
+  .card .go { font-family: var(--mono); font-size: 0.82rem; color: var(--ink); margin-top: auto; }
+  .card .go::after { content: " →"; color: var(--accent); }
+
+  /* experience */
+  .xp { border-top: 1px solid var(--line); }
+  .xp-item { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--line); }
+  .xp-when { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); }
+  .xp-role { font-family: var(--display); font-weight: 600; font-size: 1.12rem; margin: 0 0 4px; }
+  .xp-org { color: var(--muted); font-size: 0.92rem; margin: 0 0 12px; }
+  .xp-item ul { margin: 0; padding-left: 18px; color: var(--ink); font-size: 0.96rem; }
+  .xp-item li { margin-bottom: 6px; }
+  @media (max-width: 640px) { .xp-item { grid-template-columns: 1fr; gap: 8px; } }
+
+  /* skills */
+  .skill-row { display: grid; grid-template-columns: 180px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .skill-row:last-child { border-bottom: 0; }
+  .skill-row .k { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); padding-top: 4px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-size: 0.85rem; padding: 5px 12px; border: 1px solid var(--line); border-radius: 100px; background: var(--surface); }
+  @media (max-width: 640px) { .skill-row { grid-template-columns: 1fr; gap: 8px; } }
+
+  /* certs */
+  .cert { display: flex; align-items: center; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .cert:last-child { border-bottom: 0; }
+  .cert .badge { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 4px 8px; white-space: nowrap; }
+  .cert .t { font-weight: 500; }
+
+  /* footer */
+  footer { border-top: 1px solid var(--line); padding: 64px 0 80px; }
+  footer h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0 0 24px; letter-spacing: -0.02em; }
+  .foot-links { display: flex; flex-wrap: wrap; gap: 12px; }
+  .foot-note { margin-top: 40px; font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
+
+  /* on-load reveal */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .pl-pulse { display: none; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="wrap">
+      <span class="name">supriya<b>.</b>dev</span>
+      <div class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow reveal">Data Engineer · Remote (US)</p>
+      <h1 class="reveal">Supriya S</h1>
+      <p class="lede reveal">I build <b>distributed batch and real-time pipelines</b> that turn web-scale event data into analytics teams can trust — on AWS, Spark, and Kafka.</p>
+      <div class="cta-row reveal">
+        <a class="btn btn-primary" href="[resume-link]">View résumé</a>
+        <a class="btn btn-ghost" href="https://github.com/[username]">GitHub</a>
+        <a class="btn btn-ghost" href="mailto:[email]">Email</a>
+      </div>
+
+      <div class="pipeline reveal" aria-label="Pipeline architecture: sources to Kafka to Spark to data lake to serving layer">
+        <div class="pl-pulse" aria-hidden="true"></div>
+        <div class="pl-label">A pipeline I own, end to end</div>
+        <div class="pl-track">
+          <span class="pl-node">Sources</span><span class="pl-arrow" aria-hidden="true"></span>
+          <span class="pl-node">Kafka</span><span class="pl-arrow" aria-hidden="true"></span>
+          <span class="pl-node">Spark Streaming</span><span class="pl-arrow" aria-hidden="true"></span>
+          <span class="pl-node">S3 / Databricks</span><span class="pl-arrow" aria-hidden="true"></span>
+          <span class="pl-node">Snowflake / Redshift</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="metrics" style="padding-top:0;">
+    <div class="wrap">
+      <div class="metric-grid reveal">
+        <div class="metric"><div class="num">40%</div><div class="cap">lower pipeline latency</div></div>
+        <div class="metric"><div class="num">~50K</div><div class="cap">events/sec ingested</div></div>
+        <div class="metric"><div class="num">20+</div><div class="cap">reusable pipelines</div></div>
+        <div class="metric"><div class="num">5+</div><div class="cap">years in data engineering</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="sec-head reveal"><p class="eyebrow">What I build</p><h2>Reliable data, at scale.</h2></div>
+      <p class="reveal">I design pipelines that move data from many noisy sources into clean, query-ready models — and I treat data quality, lineage, and documentation as part of the deliverable, not an afterthought.</p>
+      <p class="reveal">My strongest work sits where distributed processing meets real-time systems: Spark and Scala for throughput, Kafka for low-latency ingestion, and dimensional modeling for serving. I'm comfortable owning ambiguous problems end to end.</p>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="sec-head reveal"><p class="eyebrow">Selected work</p><h2>Things I've built.</h2></div>
+      <div class="work-grid">
+        <a class="card reveal" href="[case-study-link]">
+          <span class="kind">Case study</span>
+          <h3>Latency optimization at scale</h3>
+          <p>Re-architected a batch + real-time platform across 12+ sources, cutting end-to-end processing latency 40% and embedding data-quality gates throughout.</p>
+          <span class="go">Read the case study</span>
+        </a>
+        <a class="card reveal" href="https://github.com/[username]/spark-kafka-streaming-pipeline">
+          <span class="kind">Open source</span>
+          <h3>Viewing-events streaming pipeline</h3>
+          <p>A production-shaped Kafka → Spark Structured Streaming pipeline with explicit schemas, data-quality gates, tests, and CI. Runs on a laptop in batch mode.</p>
+          <span class="go">View the repository</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="wrap">
+      <div class="sec-head reveal"><p class="eyebrow">Experience</p><h2>Where I've worked.</h2></div>
+      <div class="xp">
+        <div class="xp-item reveal">
+          <div class="xp-when">Sep 2022 – Nov 2024</div>
+          <div>
+            <p class="xp-role">Data Engineer</p>
+            <p class="xp-org">Accenture · Florida, USA</p>
+            <ul>
+              <li>Architected distributed batch and real-time ETL on AWS Glue, PySpark, Scala, and Databricks; cut latency 40% across 12+ sources.</li>
+              <li>Integrated Kafka with Spark Streaming (~50K events/sec) and built data-quality, monitoring, and lineage into every pipeline.</li>
+              <li>Designed dimensional models across Snowflake and Redshift; automated CI/CD with Jenkins and Groovy.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="xp-item reveal">
+          <div class="xp-when">May 2017 – Apr 2020</div>
+          <div>
+            <p class="xp-role">Data Engineer / Application Developer</p>
+            <p class="xp-org">Accenture · Hyderabad, India</p>
+            <ul>
+              <li>Built reusable PySpark and Scala/Spark modules adopted across 6+ projects, standardizing ingestion patterns.</li>
+              <li>Implemented and tuned SQL pipelines in Snowflake and Redshift; reduced reporting query time ~35%.</li>
+              <li>Built monitoring dashboards and root-cause analyses that improved production reliability.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head reveal"><p class="eyebrow">Toolkit</p><h2>What I work with.</h2></div>
+      <div class="reveal">
+        <div class="skill-row"><div class="k">Languages</div><div class="chips"><span class="chip">Python</span><span class="chip">PySpark</span><span class="chip">Scala</span><span class="chip">SQL</span><span class="chip">Java</span></div></div>
+        <div class="skill-row"><div class="k">Engines</div><div class="chips"><span class="chip">Apache Spark</span><span class="chip">Spark Streaming</span><span class="chip">Kafka</span><span class="chip">Flink</span></div></div>
+        <div class="skill-row"><div class="k">Cloud & platforms</div><div class="chips"><span class="chip">AWS (S3 · EMR · Glue · Redshift)</span><span class="chip">Databricks</span><span class="chip">Snowflake</span></div></div>
+        <div class="skill-row"><div class="k">Stores</div><div class="chips"><span class="chip">HDFS</span><span class="chip">Cassandra</span><span class="chip">PostgreSQL</span></div></div>
+        <div class="skill-row"><div class="k">Practice</div><div class="chips"><span class="chip">Dimensional modeling</span><span class="chip">Data quality</span><span class="chip">Lineage</span><span class="chip">CI/CD</span><span class="chip">Performance tuning</span></div></div>
+      </div>
+      <div class="sec-head reveal" style="margin-top:48px;"><p class="eyebrow">Certifications</p></div>
+      <div class="reveal">
+        <div class="cert"><span class="badge">AWS</span><span class="t">AWS Certified DevOps Engineer – Professional</span></div>
+        <div class="cert"><span class="badge">AWS</span><span class="t">AWS Certified Generative AI Developer – Professional</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="wrap">
+      <p class="eyebrow reveal">Get in touch</p>
+      <h2 class="reveal">Let's build something reliable.</h2>
+      <div class="foot-links reveal">
+        <a class="btn btn-primary" href="mailto:[email]">[email]</a>
+        <a class="btn btn-ghost" href="https://linkedin.com/in/[username]">LinkedIn</a>
+        <a class="btn btn-ghost" href="https://github.com/[username]">GitHub</a>
+        <a class="btn btn-ghost" href="[resume-link]">Résumé</a>
+      </div>
+      <p class="foot-note">Saint Augustine, FL · Open to remote (US) data engineering roles</p>
+    </div>
+  </footer>
+
+<script>
+  // Gentle scroll-reveal; disabled automatically under reduced-motion via CSS.
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+</script>
+</body>
+</html>
